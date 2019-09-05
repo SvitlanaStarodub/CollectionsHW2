@@ -6,8 +6,6 @@ namespace CollectionHW
     {
         static void Main(string[] args)
         {
-            
-
             Task2.NumberRetriever();
             Console.ReadKey();
         }

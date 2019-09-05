@@ -7,37 +7,48 @@ namespace CollectionHW
 {
     public class ListData : IEnumerable
     {
+        private readonly ILogger Logger;
         private IList<int> _initArray;
         private IList<int> _updatedArray;
-        public ListData(IList<int> array)
+        
+        public ListData(IList<int> array, ILogger logger)
         {
             _initArray = new List<int>(array);
             _updatedArray = new List<int>();
+            Logger = logger;
         }
 
         public void AddIndexRange (int firstIndexRange, int lastIndexRange)
         {
-            if(firstIndexRange < 0 && lastIndexRange < 0)
+            try
             {
-                for (int i = firstIndexRange; i < _initArray.Count-i-1; i--)
+                if (firstIndexRange < 0 && lastIndexRange < 0)
                 {
-                    _updatedArray.Add(_initArray[i]);
+                    for (int i = firstIndexRange; i < _initArray.Count - i - 1; i--)
+                    {
+                        _updatedArray.Add(_initArray[i]);
+                    }
+                }
+                if (firstIndexRange <= lastIndexRange)
+                {
+                    for (int i = firstIndexRange; i <= lastIndexRange; i++)
+                    {
+                        _updatedArray.Add(_initArray[i]);
+                    }
+                }
+                if (firstIndexRange >= lastIndexRange)
+                {
+                    for (int i = firstIndexRange; i >= lastIndexRange; i--)
+                    {
+                        _updatedArray.Add(_initArray[i]);
+                    }
                 }
             }
-            if(firstIndexRange <= lastIndexRange)
+            catch(Exception e)
             {
-                for (int i = firstIndexRange; i <= lastIndexRange; i++)
-                {
-                    _updatedArray.Add(_initArray[i]);
-                }
+                Logger.Log(e);
+                
             }
-            if(firstIndexRange >= lastIndexRange)
-            {
-                for (int i = firstIndexRange; i >= lastIndexRange; i--)
-                {
-                    _updatedArray.Add(_initArray[i]);
-                }
-            }            
         }
 
         public IEnumerator GetEnumerator()
